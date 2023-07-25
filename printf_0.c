@@ -1,43 +1,40 @@
-/**
- * _printf - Implementation of Printf function
- * @format: format pinter
- * Return: the number of characters printed (excluding the null byte)
- */
-
-#include "main.h"
 #include <stdio.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <stdint.h>
 
+/**
+ * _printf - Custom implementation of printf function.
+ * @format: A string containing format specifiers.
+ *
+ * Return: The number of characters printed.
+ */
 int _printf(const char *format, ...)
 {
 	int count = 0;
 	va_list args;
-	int var;
+	unsigned int j;
 
 	va_start(args, format);
-
-	for (var = 0; format[var] != '\0'; var++)
+	for (j = 0; format[j] != '\0'; j++)
 	{
-		if (format[var] == '%')
+		if (format[j] == '%')
 		{
-			var++;
-			if (format[var] == '%')
+			j++;
+			if (format[j] == '%')
 			{
 				putchar('%');
 				count++;
 			}
-			else if (format[var] == 'c')
+			else if (format[j] == 'c')
 			{
-				char c = va_arg(args, int);
-
+				char c = (char) va_arg(args, int);
 				putchar(c);
 				count++;
 			}
-			else if (format[var] == 's')
+			else if (format[j] == 's')
 			{
-				char *str = va_arg(args, char*);
-
+				const char *str = va_arg(args, const char *);
 				while (*str != '\0')
 				{
 					putchar(*str);
@@ -48,12 +45,11 @@ int _printf(const char *format, ...)
 		}
 		else
 		{
-			putchar(format[var]);
+			putchar(format[j]);
 			count++;
 		}
 	}
 
 	va_end(args);
-
-	return (count);
+	return count;
 }
