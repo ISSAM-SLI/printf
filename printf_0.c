@@ -1,6 +1,6 @@
 /**
  * _printf - Implementation of Printf function
- * @format: format pinter
+ * @format: format pointer
  * Return: the number of characters printed (excluding the null byte)
  */
 
@@ -11,9 +11,13 @@
 
 int _printf(const char *format, ...)
 {
+	if (format == NULL)
+		return (-1);
+
 	int count = 0;
 	va_list args;
 	int var;
+	char *str;
 
 	va_start(args, format);
 
@@ -22,6 +26,9 @@ int _printf(const char *format, ...)
 		if (format[var] == '%')
 		{
 			var++;
+			if (format[var] == '\0')
+				return (-1);
+
 			if (format[var] == '%')
 			{
 				putchar('%');
@@ -30,13 +37,14 @@ int _printf(const char *format, ...)
 			else if (format[var] == 'c')
 			{
 				char c = va_arg(args, int);
-
 				putchar(c);
 				count++;
 			}
 			else if (format[var] == 's')
 			{
-				char *str = va_arg(args, char*);
+				str = va_arg(args, char*);
+				if (str == NULL)
+					str = "(null)";
 
 				while (*str != '\0')
 				{
