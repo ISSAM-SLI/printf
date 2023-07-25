@@ -22,10 +22,10 @@ int _printf(const char *format, ...)
 		if (format[var] == '%')
 		{
 			var++;
-			if (format[var] == '%')
+			if (format[var] == '\0')
 			{
-				putchar('%');
-				count++;
+				va_end(args);
+				return (-1);
 			}
 			else if (format[var] == 'c')
 			{
@@ -45,10 +45,23 @@ int _printf(const char *format, ...)
 					count++;
 				}
 			}
+			else if (format[var] == '%')
+			{
+				putchar('%');
+
+				count++;
+			}
+			else
+			{
+				va_end(args);
+
+				return (-1);
+			}
 		}
 		else
 		{
 			putchar(format[var]);
+
 			count++;
 		}
 	}
