@@ -11,106 +11,106 @@
  */
 int _printf(const char *format, ...)
 {
-    int count = 0;
-    va_list args;
-    int var;
-    char *str;
-    char c;
+	int count = 0;
+	va_list args;
+	int var;
+	char *str;
+	char c;
 
-    if (format == NULL)
-        return (-1);
+	if (format == NULL)
+		return (-1);
 
-    va_start(args, format);
+	va_start(args, format);
 
-    for (var = 0; format[var] != '\0'; var++)
-    {
-        if (format[var] == '%')
-        {
-            var++;
-            if (format[var] == '\0')
-                return (-1);
+	for (var = 0; format[var] != '\0'; var++)
+	{
+		if (format[var] == '%')
+		{
+			var++;
+			if (format[var] == '\0')
+				return (-1);
 
-            if (format[var] == '%')
-            {
-                putchar('%');
-                count++;
-            }
-            else if (format[var] == 'c')
-            {
-                c = va_arg(args, int);
-                putchar(c);
-                count++;
-            }
-            else if (format[var] == 's')
-            {
-                str = va_arg(args, char*);
+			if (format[var] == '%')
+			{
+				putchar('%');
+				count++;
+			}
+			else if (format[var] == 'c')
+			{
+				c = va_arg(args, int);
+				putchar(c);
+				count++;
+			}
+			else if (format[var] == 's')
+			{
+				str = va_arg(args, char*);
 
-                if (str == NULL)
-                    str = "(null)";
+				if (str == NULL)
+					str = "(null)";
 
-                while (*str != '\0')
-                {
-                    putchar(*str);
-                    str++;
-                    count++;
-                }
-            }
-            else if (format[var] == 'd' || format[var] == 'i')
-            {
-                int num_digits = 0;
-		int divisor = 1;
-                int num = va_arg(args, int);
-		int temp;
-		int i;
-		int digit;
+				while (*str != '\0')
+				{
+					putchar(*str);
+					str++;
+					count++;
+				}
+			}
+			else if (format[var] == 'd' || format[var] == 'i')
+			{
+				int num_digits = 0;
+				int divisor = 1;
+				int num = va_arg(args, int);
+				int temp;
+				int i;
+				int digit;
 
-                if (num == 0)
-                {
-                    num_digits = 1;
-                }
-                else
-                {
-                    temp = num;
-                    while (temp != 0)
-                    {
-                        temp /= 10;
-                        num_digits++;
-                    }
-                }
+				if (num == 0)
+				{
+					num_digits = 1;
+				}
+				else
+				{
+					temp = num;
+					while (temp != 0)
+					{
+						temp /= 10;
+						num_digits++;
+					}
+				}
 
-                if (num < 0)
-                {
-                    putchar('-');
-                    count++;
-                    num = -num;
-                }
+				if (num < 0)
+				{
+					putchar('-');
+					count++;
+					num = -num;
+				}
 
 
-                for (i = 1; i < num_digits; i++)
-                {
-                    divisor *= 10;
-                }
+				for (i = 1; i < num_digits; i++)
+				{
+					divisor *= 10;
+				}
 
-                while (divisor != 0)
-                {
-                    digit = num / divisor;
+				while (divisor != 0)
+				{
+					digit = num / divisor;
 
-                    putchar('0' + digit);
-                    count++;
-                    num %= divisor;
-                    divisor /= 10;
-                }
-            }
-        }
-        else
-        {
-            putchar(format[var]);
-            count++;
-        }
-    }
+					putchar('0' + digit);
+					count++;
+					num %= divisor;
+					divisor /= 10;
+				}
+			}
+		}
+		else
+		{
+			putchar(format[var]);
+			count++;
+		}
+	}
 
-    va_end(args);
+	va_end(args);
 
-    return (count);
+	return (count);
 }
 
