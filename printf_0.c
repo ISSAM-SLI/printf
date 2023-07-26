@@ -16,6 +16,7 @@ int _printf(const char *format, ...)
 	int var;
 	char *str;
 	char c;
+	int num;
 
 	if (format == NULL)
 		return (-1);
@@ -44,6 +45,7 @@ int _printf(const char *format, ...)
 			else if (format[var] == 's')
 			{
 				str = va_arg(args, char*);
+
 				if (str == NULL)
 					str = "(null)";
 
@@ -52,6 +54,49 @@ int _printf(const char *format, ...)
 					putchar(*str);
 					str++;
 					count++;
+				}
+			}
+			else if (format[var] == 'd' || format[var] == 'i')
+			{
+				num = va_arg(args, int);
+				int num_copy = num;
+				int num_digits = 0;
+
+				if (num_copy == 0)
+				{
+					num_digits = 1;
+				}
+				else
+				{
+					while (num_copy != 0)
+					{
+						num_copy /= 10;
+						num_digits++;
+					}
+				}
+
+				if (num < 0)
+				{
+					putchar('-');
+					count++;
+					num = -num;
+				}
+
+				int divisor = 1, i;
+
+				for (i = 1; i < num_digits; i++)
+				{
+					divisor *= 10;
+				}
+
+				while (divisor != 0)
+				{
+					int digit = num / divisor;
+
+					putchar('0' + digit);
+					count++;
+					num %= divisor;
+					divisor /= 10;
 				}
 			}
 		}
