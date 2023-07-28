@@ -8,4 +8,6 @@
 int _printf(const char *format, ...);
 int _putchar(char c);
 
+#define MAX 7
+
 #endif
