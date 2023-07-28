@@ -16,9 +16,6 @@ int _printf(const char *format, ...)
 	int var;
 	char *str;
 	char c;
-	int o = 0, k, s;
-	int f, store;
-	int array[MAX];
 
 	if (format == NULL)
 		return (-1);
@@ -104,24 +101,7 @@ int _printf(const char *format, ...)
 					divisor /= 10;
 				}
 			}
-			else if (format[o] == '%' && format[o + 1] == 'b')
-			{
-				store = va_arg(args, int);
-				while (store > 0)
-				{
-					for (s = 0; s < MAX; s++)
-					{
-						f = store % 2;
-						array[s] = f;
-						store = store / 2;
-					}
-					for (k = MAX - 1; k >= 0; k--)
-					{
-						_putchar(array[k] + 48);
-					}
 
-				}
-			}
 		}
 		else
 		{
